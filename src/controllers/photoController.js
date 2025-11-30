@@ -1,3 +1,4 @@
+const path = require('path');
 const csvModel = require('../models/csvModel');
 const fileModel = require('../models/fileModel');
 const fileUtils = require('../utils/fileUtils');
@@ -12,15 +13,38 @@ exports.processPhotos = async (req, res) => {
     console.log('📁 Carpeta destino:', outputFolder);
     console.log('📄 Archivo CSV:', csvFilePath);
 
+    // VALIDACIÓN MEJORADA DE RUTAS
+    const validateAndResolvePath = (folderPath) => {
+      if (!folderPath) {
+        throw new Error('La ruta de carpeta está vacía');
+      }
+
+      // Si ya es absoluta, usarla directamente
+      if (path.isAbsolute(folderPath)) {
+        return folderPath;
+      }
+
+      // Si es relativa, mostrar advertencia pero intentar resolver
+      console.warn(`⚠️ Ruta relativa recibida: ${folderPath}. Resolviendo desde: ${process.cwd()}`);
+      return path.resolve(process.cwd(), folderPath);
+    };
+
+    const absolutePhotosFolder = validateAndResolvePath(photosFolder);
+    const absoluteOutputFolder = validateAndResolvePath(outputFolder);
+
+    console.log('📁 Carpeta fotos (absoluta):', absolutePhotosFolder);
+    console.log('📁 Carpeta destino (absoluta):', absoluteOutputFolder);
+
+    // Resto del código permanece igual...
     // 1. Leer códigos del CSV
     const codes = await csvModel.readCSV(csvFilePath);
     console.log('📋 Códigos encontrados:', codes);
 
     // 2. Listar archivos en la carpeta de fotos
-    const files = await fileModel.listFiles(photosFolder);
+    const files = await fileModel.listFiles(absolutePhotosFolder);
     console.log('🖼️ Archivos en carpeta:', files.length);
 
-    // 3. Encontrar coincidencias (ahora con validación)
+    // 3. Encontrar coincidencias
     const { matches, missingCodes, codeFilesMap, totalProcessed, foundCount, missingCount } = fileUtils.findMatches(codes, files);
     
     console.log('✅ Coincidencias encontradas:', matches.length);
@@ -29,7 +53,7 @@ exports.processPhotos = async (req, res) => {
     // 4. Mover archivos (solo si hay coincidencias)
     let results = { moved: [], errors: [] };
     if (matches.length > 0) {
-      results = await fileModel.moveFiles(matches, photosFolder, outputFolder);
+      results = await fileModel.moveFiles(matches, absolutePhotosFolder, absoluteOutputFolder);
     }
 
     // Determinar el estado del proceso

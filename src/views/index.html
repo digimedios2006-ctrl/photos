@@ -5,40 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Selector de Fotos por Código</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🖼️ Selector de Fotos por Código</h1>
-            <p>Sube un archivo CSV con códigos y selecciona las carpetas para procesar tus fotos</p>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">🖼️</div>
+                    <h1>Photo Code Selector</h1>
+                </div>
+                <p class="tagline">Procesa y organiza tus fotos automáticamente mediante códigos</p>
+            </div>
         </header>
 
-        <main>
-            <form id="photoForm" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="csvFile">📄 Archivo CSV con códigos:</label>
-                    <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
-                    <small>El CSV debe tener una columna con los códigos (ej: 426, 123, etc.)</small>
-                </div>
+        <main class="app-main">
+            <div class="form-container">
+                <form id="photoForm" enctype="multipart/form-data" class="modern-form">
+                    <div class="form-section">
+                        <h2 class="section-title">Configuración del Proceso</h2>
+                        
+                        <div class="form-group">
+                            <label for="csvFile" class="form-label">
+                                <span class="label-icon">📄</span>
+                                Archivo CSV con códigos
+                            </label>
+                            <div class="file-input-container">
+                                <input type="file" id="csvFile" name="csvFile" accept=".csv" required class="file-input">
+                                <div class="file-input-custom">
+                                    <span class="file-input-text">Seleccionar archivo CSV</span>
+                                    <span class="file-input-btn">Examinar</span>
+                                </div>
+                            </div>
+                            <small class="form-hint">El CSV debe contener una columna con los códigos numéricos</small>
+                        </div>
 
-                <div class="form-group">
-                    <label for="photosFolder">📁 Carpeta donde están las fotos:</label>
-                    <input type="text" id="photosFolder" name="photosFolder" 
-                           placeholder="Ej: C:\Fotos\Evento" required>
-                    <small>Ruta completa de la carpeta con las fotos originales</small>
-                </div>
+                        <div class="form-group">
+                            <label for="photosFolder" class="form-label">
+                                <span class="label-icon">📁</span>
+                                Carpeta de origen
+                            </label>
+                            <div class="folder-input-container">
+                                <input type="text" id="photosFolder" name="photosFolder" 
+                                       placeholder="Ruta absoluta de la carpeta con las fotos..." class="folder-input">
+                                <button type="button" id="selectPhotosFolder" class="folder-help-btn" title="Ayuda para seleccionar carpeta">
+                                    <span>?</span>
+                                </button>
+                            </div>
+                            <small class="form-hint">Ruta completa donde se encuentran las fotos originales</small>
+                        </div>
 
-                <div class="form-group">
-                    <label for="outputFolder">📂 Carpeta destino (nueva):</label>
-                    <input type="text" id="outputFolder" name="outputFolder" 
-                           placeholder="Ej: C:\Fotos\Seleccionadas" required>
-                    <small>Ruta y nombre de la nueva carpeta donde se guardarán las fotos seleccionadas</small>
-                </div>
+                        <div class="form-group">
+                            <label for="outputFolder" class="form-label">
+                                <span class="label-icon">📂</span>
+                                Carpeta destino
+                            </label>
+                            <div class="folder-input-container">
+                                <input type="text" id="outputFolder" name="outputFolder" 
+                                       placeholder="Ruta absoluta para la nueva carpeta..." class="folder-input">
+                                <button type="button" id="selectOutputFolder" class="folder-help-btn" title="Ayuda para seleccionar carpeta">
+                                    <span>?</span>
+                                </button>
+                            </div>
+                            <small class="form-hint">Ruta donde se guardarán las fotos seleccionadas</small>
+                        </div>
+                    </div>
 
-                <button type="submit" id="processBtn">🚀 Procesar Fotos</button>
-            </form>
+                    <button type="submit" id="processBtn" class="submit-btn">
+                        <span class="btn-text">Procesar Fotos</span>
+                        <span class="btn-icon">🚀</span>
+                    </button>
+                </form>
 
-            <div id="result" class="result-container"></div>
+                <div id="result" class="result-container"></div>
+            </div>
         </main>
     </div>
 
