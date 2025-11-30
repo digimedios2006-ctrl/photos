@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector de Fotos por Código</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🖼️ Selector de Fotos por Código</h1>
+            <p>Sube un archivo CSV con códigos y selecciona las carpetas para procesar tus fotos</p>
+        </header>
+
+        <main>
+            <form id="photoForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="csvFile">📄 Archivo CSV con códigos:</label>
+                    <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
+                    <small>El CSV debe tener una columna con los códigos (ej: 426, 123, etc.)</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="photosFolder">📁 Carpeta donde están las fotos:</label>
+                    <input type="text" id="photosFolder" name="photosFolder" 
+                           placeholder="Ej: C:\Fotos\Evento" required>
+                    <small>Ruta completa de la carpeta con las fotos originales</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="outputFolder">📂 Carpeta destino (nueva):</label>
+                    <input type="text" id="outputFolder" name="outputFolder" 
+                           placeholder="Ej: C:\Fotos\Seleccionadas" required>
+                    <small>Ruta y nombre de la nueva carpeta donde se guardarán las fotos seleccionadas</small>
+                </div>
+
+                <button type="submit" id="processBtn">🚀 Procesar Fotos</button>
+            </form>
+
+            <div id="result" class="result-container"></div>
+        </main>
+    </div>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
